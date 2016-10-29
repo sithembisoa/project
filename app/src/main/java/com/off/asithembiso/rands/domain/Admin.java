@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 public class Admin implements Serializable {
 
-    private Long id;
+    private int id;
     private String idNumber;
     private String adminName;
     private String adminLastName;
@@ -28,7 +28,7 @@ public class Admin implements Serializable {
         this.adminLastName=builder.adminLastName;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
     public String getadminId() {
@@ -45,13 +45,13 @@ public class Admin implements Serializable {
     }
 
     public static class Builder {
-        private Long id;
+        private int id;
         private String idNumber;
         private String adminName;
         private String adminLastName;
         private String password;
 
-        public Builder id(Long id) {
+        public Builder id(int id) {
             this.id=id;
             return  this;
         }

@@ -8,10 +8,11 @@ import com.off.asithembiso.rands.domain.Customer;
  */
 public class CustomerFactory {
 
-    public static Customer createCustomer(String fullName, String email){
+    public static Customer createCustomer(String fullName, String email, String pass){
         return new Customer.Builder()
                 .fullName(fullName)
                 .email(email)
+                .password(pass)
                 .build();
     }
 }

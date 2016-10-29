@@ -30,9 +30,9 @@ public class CustomerRepositoryImpl  extends SQLiteOpenHelper implements Custome
 
 
     // Database creation sql statement
-    private static final String DATABASE_CREATE = " CREATE TABLE "
+    private static final String DATABASE_CREATE = "CREATE TABLE "
             + TABLE_NAME + "("
-            + COLUMN_ID + " INTEGER  PRIMARY KEY AUTOINCREMENT, "
+            + COLUMN_ID + " INTEGER PRIMARY KEY NOT NULL, "
             + COLUMN_EMAIL + " TEXT NOT NULL, "
             + COLUMN_PASSWORD + " TEXT NOT NULL, "
             + COLUMN_FULLNAME + " TEXT NOT NULL);";
@@ -41,59 +41,66 @@ public class CustomerRepositoryImpl  extends SQLiteOpenHelper implements Custome
 
         super(context, DBConstants.DATABASE_NAME,null,DBConstants.DATABASE_VERSION);
     }
+    @Override
+    public void onCreate(SQLiteDatabase db) {
 
+        db.execSQL(DATABASE_CREATE);
+        this.db = db;
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.w(this.getClass().getName(),
+                "Upgrading database from version " + oldVersion + " to "
+                        + newVersion + ", which will destroy all old data");
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        onCreate(db);
+
+    }
     public void open() throws SQLException {
         db = this.getWritableDatabase();
     }
 
     public void close() {
-        this.close();
+        db.close();
     }
 
     @Override
-    public Customer findById(Long id) {
-
-        open();
-        Cursor cursor = db.query(
-                TABLE_NAME,
-                new String[]{
-                        COLUMN_ID,
-                        COLUMN_EMAIL,
-                        COLUMN_PASSWORD,
-                        COLUMN_FULLNAME,
-                },
-                COLUMN_ID + " =? ",
-                new String[]{String.valueOf(id)},
-                null,
-                null,
-                null,
-                null);
-        if (cursor.moveToFirst()) {
-            final Customer Customer = new Customer.Builder()
-                    .id(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)))
-                    .fullName(cursor.getString(cursor.getColumnIndex(COLUMN_FULLNAME)))
-                    .password(cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD)))
-                    .email(cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL)))
-                    .build();
-
-            return Customer;
-        } else {
-            return null;
+    public String findUser(String email){
+        db = this.getReadableDatabase();
+        String sqlQuery = "SELECT email, password FROM "+TABLE_NAME;
+        Cursor cursor = db.rawQuery(sqlQuery, null);
+        String t_email="", t_password="not found";
+        if (cursor.moveToFirst()){
+            do {
+                t_email = cursor.getString(0);
+                if (t_email.equals(email)){
+                    t_password = cursor.getString(1);
+                    break;
+                }
+            }while(cursor.moveToNext());
         }
+        close();
+        return t_password;
     }
 
     @Override
     public Customer save(Customer entity) {
         open();
+        String sqlQuery = "SELECT * FROM "+TABLE_NAME;
+        Cursor cursor = db.rawQuery(sqlQuery, null);
+        int count = cursor.getCount();
+
         ContentValues values = new ContentValues();
-        values.put(COLUMN_ID, entity.getId());
+        values.put(COLUMN_ID, count);
         values.put(COLUMN_FULLNAME, entity.getFullName());
         values.put(COLUMN_EMAIL, entity.getEmail());
         values.put(COLUMN_PASSWORD, entity.getPassword());
-        long id = db.insert(TABLE_NAME, null, values);
+        db.insert(TABLE_NAME, null, values);
+        close();
         Customer insertedEntity = new Customer.Builder()
                 .copy(entity)
-                .id(id)
+                .id(count)
                 .build();
         return insertedEntity;
     }
@@ -124,48 +131,4 @@ public class CustomerRepositoryImpl  extends SQLiteOpenHelper implements Custome
                 new String[]{String.valueOf(entity.getId())});
         return entity;
     }
-
-    @Override
-    public Set<Customer> findAll() {
-        open();
-        Set<Customer> customers = new HashSet<>();
-        open();
-        Cursor cursor = db.query(TABLE_NAME,null,null,null,null,null,null);
-        if (cursor.moveToFirst()) {
-            do {
-                final Customer Customer = new Customer.Builder()
-                        .id(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)))
-                        .fullName(cursor.getString(cursor.getColumnIndex(COLUMN_FULLNAME)))
-                        .password(cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD)))
-                        .email(cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL)))
-                        .build();
-                customers.add(Customer);
-            } while (cursor.moveToNext());
-        }
-        return customers;
-    }
-
-    @Override
-    public int deleteAll() {
-        open();
-        int rowsDeleted = db.delete(TABLE_NAME,null,null);
-        close();
-        return rowsDeleted;
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(DATABASE_CREATE);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w(this.getClass().getName(),
-                "Upgrading database from version " + oldVersion + " to "
-                        + newVersion + ", which will destroy all old data");
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-        onCreate(db);
-
-    }
-    
 }

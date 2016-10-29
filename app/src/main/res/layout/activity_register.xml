@@ -10,10 +10,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="262dp"
+        android:layout_height="198dp"
         android:orientation="vertical"
-        android:background="@drawable/login_bg"
-        android:layout_weight="0.04">
+        android:background="@drawable/login_bg">
     </RelativeLayout>
 
 
@@ -21,7 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.5"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <EditText
             android:id="@+id/email_txt"
@@ -44,13 +44,22 @@
             android:inputType="textPassword"
             android:hint="Password"/>
 
+        <EditText
+            android:id="@+id/passwordRetype"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="Re-enter Password" />
+
         <Button
             android:id="@+id/btnReg"
             android:layout_marginTop="4dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sign Up"
+            android:onClick="onSignUpClick"
             android:background="@drawable/button_bg_transparent"/>
+
         <TextView
             android:id="@+id/loginLink"
             android:layout_width="match_parent"
@@ -59,7 +68,8 @@
             android:text="Already have an Account? Log In"
             android:gravity="center"
             android:textSize="16dp"
-            android:textColor="#000"/>
+            android:textColor="#000"
+            android:layout_weight="1.14" />
 
     </LinearLayout>
     <RelativeLayout

@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 public class Customer implements Serializable {
 
-    private Long id;
+    private int id;
     private String fullName;
     private String email;
     private String password;
@@ -19,6 +19,7 @@ public class Customer implements Serializable {
     public Customer(Builder builder) {
         email = builder.email;
         fullName = builder.fullName;
+        password = builder.password;
         id = builder.id;
     }
 
@@ -26,15 +27,15 @@ public class Customer implements Serializable {
 
     public String getEmail() { return email;}
 
-    public Long getId(){return id;}
+    public int getId(){return id;}
 
-    public String getPassword(){return this.password;}
+    public String getPassword(){return password;}
 
     public static class Builder {
 
         private String fullName;
         private String email;
-        private Long id;
+        private int id;
         private String password;
 
         public Builder (String email) {
@@ -54,7 +55,7 @@ public class Customer implements Serializable {
         }
 
         public Builder email(String email){this.email = email;return this;}
-        public Builder id(Long id){this.id = id; return this;}
+        public Builder id(int id){this.id = id; return this;}
 
         public Builder copy(Customer Customer){
 
