@@ -1,5 +1,7 @@
 package com.off.asithembiso.rands.repositories.interfaces;
 
+import android.database.Cursor;
+
 import com.off.asithembiso.rands.domain.Employee;
 import com.off.asithembiso.rands.repositories.Repository;
 
@@ -8,4 +10,5 @@ import com.off.asithembiso.rands.repositories.Repository;
  */
 
 public interface EmployeeRepository extends Repository<Employee, Long> {
+    Cursor getAll();
 }

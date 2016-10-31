@@ -14,17 +14,12 @@ public class StartMenuActivity extends AppCompatActivity {
     }
 
     public void onEmployeesClick (View view){
-        Intent i = new Intent("com.off.asithembiso.rands.DisplayEmployees");
+        Intent i = new Intent(getApplicationContext(), DisplayEmployees.class);
         startActivity(i);
     }
 
     public void onExitClick(View view){
         finish();
     }
-
-    public void onEventsClick(View view){
-        finish();
-    }
-
 
 }

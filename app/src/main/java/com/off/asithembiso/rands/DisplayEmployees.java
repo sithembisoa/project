@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class DisplayEmployees extends AppCompatActivity {
 
-    private EmployeeRepositoryImpl repo;
+    private EmployeeRepositoryImpl repo = new EmployeeRepositoryImpl(this);
 
     private ArrayList<String> employees;
     private ArrayAdapter arrayAdapter;
@@ -31,8 +31,7 @@ public class DisplayEmployees extends AppCompatActivity {
         setContentView(R.layout.activity_display_employees);
 
         search=(EditText) findViewById(R.id.txtSearch);
-        repo = new EmployeeRepositoryImpl(this);
-        //loadGrid();
+        loadGrid();
     }
 
    public void loadGrid() {
@@ -88,7 +87,7 @@ public class DisplayEmployees extends AppCompatActivity {
     }
 
     public void addEmployee(View view) {
-        Intent intent = new Intent("com.off.asithembiso.rands.AddEmployee");
+        Intent intent = new Intent(getApplicationContext(), AddEmployee.class);
         intent.putExtra("key","ADD");
         startActivity(intent);
     }
@@ -113,7 +112,7 @@ public class DisplayEmployees extends AppCompatActivity {
             String id = search.getText().toString();
             Long idLong = Long.parseLong(id);
             Employee employee = repo.findById(idLong);
-            repo.remove(employee);
+            repo.delete(employee);
             loadGrid();
         }  catch(Exception e) {
             Toast.makeText(getBaseContext(), "not found" + e.getMessage(), Toast.LENGTH_LONG).show();

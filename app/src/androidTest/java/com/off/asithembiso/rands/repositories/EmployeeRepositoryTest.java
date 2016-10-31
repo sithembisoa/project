@@ -33,7 +33,7 @@ public class EmployeeRepositoryTest extends AndroidTestCase {
                 .salary()
                 .build();
 
-        Employee insertedEntity = repo.add(createEntity);
+        Employee insertedEntity = repo.save(createEntity);
         id=insertedEntity.getId();
 
        Assert.assertNotNull(TAG+" CREATE",insertedEntity);

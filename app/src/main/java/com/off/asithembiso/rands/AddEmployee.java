@@ -89,7 +89,7 @@ public class AddEmployee extends AppCompatActivity {
                             name.getText().toString(), lastName.getText().toString(),
                             job.getText().toString(), Double.parseDouble(hRate),
                             Integer.parseInt(hours.getText().toString()));
-                    repo.add(employee);
+                    repo.save(employee);
                     clear();
                 }
             }

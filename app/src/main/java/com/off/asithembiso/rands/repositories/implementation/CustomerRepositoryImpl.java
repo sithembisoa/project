@@ -15,6 +15,7 @@ import com.off.asithembiso.rands.repositories.interfaces.CustomerRepository;
 import java.util.HashSet;
 import java.util.Set;
 
+
 /**
  * Created by asithembiso on 2016/09/02.
  */
@@ -37,6 +38,26 @@ public class CustomerRepositoryImpl  extends SQLiteOpenHelper implements Custome
             + COLUMN_PASSWORD + " TEXT NOT NULL, "
             + COLUMN_FULLNAME + " TEXT NOT NULL);";
 
+    public static final String TABLE_NAME_EMP="employee";
+    public static final String COLUMN_EMPID="id";
+    public static final String COLUMN_NAME="name";
+    public static final String COLUMN_SURNAME="SurName";
+    public static final String COLUMN_JOB="job";
+    public static final String COLUMN_RATE="rate";
+    public static final String COLUMN_HOURS="hours";
+    public static final String COLUMN_SALARY="salary";
+
+    private static final String DATABASE_CREATE_EMP=" CREATE TABLE "
+            + TABLE_NAME_EMP + "("
+            + COLUMN_EMPID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COLUMN_NAME + " TEXT NOT NULL, "
+            + COLUMN_SURNAME + " TEXT NOT NULL, "
+            + COLUMN_JOB + " TEXT NOT NULL,"
+            + COLUMN_RATE + " TEXT NOT NULL, "
+            + COLUMN_HOURS +" TEXT NOT NULL, "
+            + COLUMN_SALARY +" TEXT NOT NULL );";
+
+
     public CustomerRepositoryImpl(Context context){
 
         super(context, DBConstants.DATABASE_NAME,null,DBConstants.DATABASE_VERSION);
@@ -45,9 +66,39 @@ public class CustomerRepositoryImpl  extends SQLiteOpenHelper implements Custome
     public void onCreate(SQLiteDatabase db) {
 
         db.execSQL(DATABASE_CREATE);
+        db.execSQL(DATABASE_CREATE_EMP);
         this.db = db;
     }
+    @Override
+    public Customer findById(Long id) {
 
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(
+                TABLE_NAME,
+                new String[]{
+                        COLUMN_ID,
+                        COLUMN_FULLNAME,
+                        COLUMN_EMAIL,
+                        COLUMN_PASSWORD},
+                COLUMN_ID + " =? ",
+                new String[]{String.valueOf(id)},
+                null,
+                null,
+                null,
+                null);
+        if (cursor.moveToFirst()) {
+            final Customer customer = new Customer.Builder()
+                    .id(cursor.getInt(cursor.getColumnIndex(COLUMN_ID)))
+                    .fullName(cursor.getString(cursor.getColumnIndex(COLUMN_FULLNAME)))
+                    .email(cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL)))
+                    .password(cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD)))
+                    .build();
+
+            return customer;
+        } else {
+            return null;
+        }
+    }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.w(this.getClass().getName(),
@@ -65,7 +116,6 @@ public class CustomerRepositoryImpl  extends SQLiteOpenHelper implements Custome
         db.close();
     }
 
-    @Override
     public String findUser(String email){
         db = this.getReadableDatabase();
         String sqlQuery = "SELECT email, password FROM "+TABLE_NAME;
@@ -130,5 +180,33 @@ public class CustomerRepositoryImpl  extends SQLiteOpenHelper implements Custome
                 COLUMN_ID + " =? ",
                 new String[]{String.valueOf(entity.getId())});
         return entity;
+    }
+
+    @Override
+    public int deleteAll() {
+        open();
+        int rowsDeleted = db.delete(TABLE_NAME,null,null);
+        close();
+        return rowsDeleted;
+    }
+
+    @Override
+    public Set<Customer> findAll() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Set<Customer> customers = new HashSet<>();
+        open();
+        Cursor cursor = db.query(TABLE_NAME, null,null,null,null,null,null);
+        if (cursor.moveToFirst()) {
+            do {
+                final Customer customer = new Customer.Builder()
+                        .id(cursor.getInt(cursor.getColumnIndex(COLUMN_ID)))
+                        .fullName(cursor.getString(cursor.getColumnIndex(COLUMN_FULLNAME)))
+                        .email(cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL)))
+                        .password(cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD)))
+                        .build();
+                customers.add(customer);
+            } while (cursor.moveToNext());
+        }
+        return customers;
     }
 }
