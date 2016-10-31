@@ -8,7 +8,7 @@ import com.off.asithembiso.rands.domain.Employee;
 
 public class EmployeeFactory {
 
-    public Employee createEmployee(String name, String surname, String job, double rate, int hours) {
+    public static Employee createEmployee(String name, String surname, String job, double rate, int hours) {
 
         Employee employee = new Employee.Builder()
                 .name(name)

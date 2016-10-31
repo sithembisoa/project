@@ -3,13 +3,16 @@ package com.off.asithembiso.rands.factory;
 /**
  * Created by asithembiso on 2016/10/31.
  */
+import com.off.asithembiso.rands.domain.Employee;
+import com.off.asithembiso.rands.factories.EmployeeFactory;
+
 import junit.framework.Assert;
 import org.junit.Test;
 
 public class EmployeeFactoryTest {
 
     public void testTenant() throws Exception {
-        Employee acc = AccountFactory.getAccount("24567", 3568.5, water, elec, park);
+        Employee employee = EmployeeFactory.createEmployee("Athi", "Sithembiso", "Dj", 150.50, 35);
 
         Assert.assertEquals(acc.getAccNo(),"24567");
         Assert.assertFalse(3568.5 > acc.getBalance());
