@@ -11,7 +11,7 @@ import org.junit.Test;
 
 public class CustomerFactoryTest {
     @Test
-    public void testTenant() throws Exception {
+    public void testCustomer() throws Exception {
         Customer customer =  CustomerFactory.createCustomer("Athi Sithembiso", "athi@gmail.com", "12345");
 
         Assert.assertEquals(customer.getPassword(),"12345");
