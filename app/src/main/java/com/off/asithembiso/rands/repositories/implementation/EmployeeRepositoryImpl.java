@@ -14,13 +14,14 @@ import android.util.Log;
 
 import com.off.asithembiso.rands.conf.databases.DBConstants;
 import com.off.asithembiso.rands.domain.Employee;
+import com.off.asithembiso.rands.repositories.Repository;
 import com.off.asithembiso.rands.repositories.interfaces.EmployeeRepository;
 
 import java.util.HashSet;
 import java.util.Set;
 
 
-public class EmployeeRepositoryImpl extends SQLiteOpenHelper implements EmployeeRepository {
+public class EmployeeRepositoryImpl extends SQLiteOpenHelper implements Repository<Employee, Long>{
 
     public static final String TABLE_NAME="employees";
     private SQLiteDatabase db;
@@ -53,7 +54,6 @@ public class EmployeeRepositoryImpl extends SQLiteOpenHelper implements Employee
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
         db.execSQL(DATABASE_CREATE);
         this.db = db;
     }
@@ -65,6 +65,18 @@ public class EmployeeRepositoryImpl extends SQLiteOpenHelper implements Employee
                         + newVersion + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
+
+    }
+
+    public Cursor getAll(){
+
+        try {
+            open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        String sql="Select * from employees";
+        return (db.rawQuery(sql,null));
 
     }
 

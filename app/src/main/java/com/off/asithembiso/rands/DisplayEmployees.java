@@ -1,6 +1,7 @@
 package com.off.asithembiso.rands;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,14 +12,12 @@ import android.widget.Toast;
 
 import com.off.asithembiso.rands.domain.Employee;
 import com.off.asithembiso.rands.repositories.implementation.EmployeeRepositoryImpl;
-import com.off.asithembiso.rands.repositories.interfaces.EmployeeRepository;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Set;
+
 
 public class DisplayEmployees extends AppCompatActivity {
 
-    private EmployeeRepository repo;
+    private EmployeeRepositoryImpl repo;
 
     private ArrayList<String> employees;
     private ArrayAdapter arrayAdapter;
@@ -31,26 +30,39 @@ public class DisplayEmployees extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_employees);
         search=(EditText) findViewById(R.id.txtSearch);
-        repo = new EmployeeRepositoryImpl(this);
+        repo = new EmployeeRepositoryImpl(this.getApplicationContext());
         loadGrid();
     }
 
-   public void loadGrid(){
-      /* Set<Employee> objEmployees= repo.findAll();
-       Iterator<Employee> employeeIterator = objEmployees.iterator();
+   public void loadGrid() {
        employees = new ArrayList<>();
 
-       while (employeeIterator.hasNext()){
-           employees.add(""+employeeIterator.next().getId());
-           employees.add(""+employeeIterator.next().getName());
-           employees.add(""+employeeIterator.next().getJobTitle());
-           employees.add(""+employeeIterator.next().getSalary());
-       }
+       Cursor cursor = repo.getAll();
 
-       arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, employees);
-       employeeGridView = (GridView) findViewById(R.id.gridView);
-       employeeGridView.setAdapter(arrayAdapter);*/
-    }
+       if (cursor.moveToNext()) {
+           do {
+               String id = cursor.getString(0);
+               String name = cursor.getString(1);
+               String lastName = cursor.getString(2);
+               String job = cursor.getString(3);
+               String rate = cursor.getString(4);
+               String hours = cursor.getString(5);
+               String salary = cursor.getString(6);
+
+               employees.add(id);
+               employees.add(name);
+               // employees.add(lastName);
+               employees.add(job);
+               //  employees.add(rate);
+               // employees.add(hours);
+               employees.add(salary);
+           } while (cursor.moveToNext());
+           arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, employees);
+
+           employeeGridView = (GridView) findViewById(R.id.gridView);
+           employeeGridView.setAdapter(arrayAdapter);
+       }
+   }
 
     public void updateEmployee(View view) {
 
