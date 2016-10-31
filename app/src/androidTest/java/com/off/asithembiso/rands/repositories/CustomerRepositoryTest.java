@@ -11,11 +11,13 @@ import com.off.asithembiso.rands.repositories.interfaces.CustomerRepository;
  */
 import junit.framework.Assert;
 
+import java.util.Set;
+
 public class CustomerRepositoryTest extends AndroidTestCase{
     private int id;
     private static final String TAG="CUSTOMER TEST";
 
-    public void testCreateReadUpdateDelete() throws Exception {
+    public void testCreateReadUpdateDeleteCustomer() throws Exception {
 
         CustomerRepository repo = new CustomerRepositoryImpl(this.getContext());
         // CREATE
@@ -29,35 +31,33 @@ public class CustomerRepositoryTest extends AndroidTestCase{
         Customer insertedEntity = repo.save(createEntity);
         id=insertedEntity.getId();
 
-        //Assert.assertNotNull(TAG+" CREATE",insertedEntity);
+        Assert.assertNotNull(TAG+" CREATE",insertedEntity);
 
         Assert.assertEquals(insertedEntity.getPassword(), "123456789");
 
-        /*//READ ALL
-        Set<TenantManagement> tenantSet= repo.findAll();
+        //READ ALL
+        Set<Customer> tenantSet= repo.findAll();
         Assert.assertTrue(TAG+" READ ALL",tenantSet.size()>0);
 
         //READ ENTITY
-        TenantManagement entity = repo.findById(id);
+        Customer entity = repo.findById(Long.parseLong(""+id));
         Assert.assertNotNull(TAG+" READ ENTITY",entity);
 
 
 
         //UPDATE ENTITY
-        createEntity.RemoveTenant("Malusi Gigs");
-
-        TenantManagement updateEntity = new TenantManagement.Builder()
+        Customer updateEntity = new Customer.Builder()
                 .copy(entity)
-                .list(createEntity.getTenantList())
+                .password("Sit@0923")
                 .build();
         repo.update(updateEntity);
-        TenantManagement newEntity = repo.findById(id);
-        Assert.assertEquals(TAG+ " UPDATE ENTITY",0,updateEntity.getSize());
+        Customer newEntity = repo.findById(Long.parseLong(""+id));
+        Assert.assertEquals(TAG+ " UPDATE ENTITY","Sit@0923",updateEntity.getPassword());
 
         // DELETE ENTITY
         repo.delete(updateEntity);
-        TenantManagement deletedEntity = repo.findById(id);
-        Assert.assertNull(TAG+" DELETE",deletedEntity);*/
+        Customer deletedEntity = repo.findById(Long.parseLong(""+id));
+        Assert.assertNull(TAG+" DELETE",deletedEntity);
 
     }
 

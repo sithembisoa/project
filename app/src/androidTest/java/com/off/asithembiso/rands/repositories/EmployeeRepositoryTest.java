@@ -56,10 +56,9 @@ public class EmployeeRepositoryTest extends AndroidTestCase {
         Employee newEntity = repo.findById(id);
         Assert.assertEquals(TAG+ " UPDATE ENTITY","Thabo",newEntity.getName());
 
-        /*// DELETE ENTITY
+        //DELETE ENTITY
         repo.delete(updateEntity);
-        TenantManagement deletedEntity = repo.findById(id);
-        Assert.assertNull(TAG+" DELETE",deletedEntity);*/
-
+        Employee deletedEntity = repo.findById(id);
+        Assert.assertNull(TAG+" DELETE",deletedEntity);
     }
 }
