@@ -18,4 +18,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="215dp"
         android:id="@+id/textView2" />
+
+    <Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:onClick="onEmployeesClick"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/button" />
 </RelativeLayout>

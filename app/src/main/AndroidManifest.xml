@@ -37,6 +37,20 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".AddEmployee">
+            <intent-filter>
+                <action android:name="com.off.asithembiso.rands.AddEmployee" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".DisplayEmployees">
+            <intent-filter>
+                <action android:name="com.off.asithembiso.rands.DisplayEmployees" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
