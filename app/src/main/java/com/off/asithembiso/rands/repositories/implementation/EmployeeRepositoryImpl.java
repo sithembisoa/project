@@ -15,7 +15,6 @@ import android.util.Log;
 import com.off.asithembiso.rands.conf.databases.DBConstants;
 import com.off.asithembiso.rands.domain.Employee;
 import com.off.asithembiso.rands.repositories.Repository;
-import com.off.asithembiso.rands.repositories.interfaces.EmployeeRepository;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -36,16 +35,13 @@ public class EmployeeRepositoryImpl extends SQLiteOpenHelper implements Reposito
 
     private static final String DATABASE_CREATE=" CREATE TABLE "
             + TABLE_NAME + "("
-            + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COLUMN_ID + " INTEGER PRIMARY KEY NOT NULL, "
             + COLUMN_NAME + " TEXT NOT NULL, "
             + COLUMN_SURNAME + " TEXT NOT NULL, "
             + COLUMN_JOB + " TEXT NOT NULL,"
             + COLUMN_RATE + " TEXT NOT NULL, "
             + COLUMN_HOURS +" TEXT NOT NULL, "
             + COLUMN_SALARY +" TEXT NOT NULL );";
-
-
-
 
     public EmployeeRepositoryImpl(Context context){
         super(context, DBConstants.DATABASE_NAME,null,DBConstants.DATABASE_VERSION);
@@ -69,15 +65,12 @@ public class EmployeeRepositoryImpl extends SQLiteOpenHelper implements Reposito
     }
 
     public Cursor getAll(){
-
-        try {
-            open();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Cursor c;
+        SQLiteDatabase db = this.getReadableDatabase();
+        open();
         String sql="Select * from employees";
-        return (db.rawQuery(sql,null));
-
+        c = db.rawQuery(sql,null);
+        return c;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.off.asithembiso.rands.repositories;
 
+import android.database.Cursor;
 import android.test.AndroidTestCase;
 
 import com.off.asithembiso.rands.domain.Employee;
@@ -19,9 +20,9 @@ public class EmployeeRepositoryTest extends AndroidTestCase {
     private Long id;
     private static final String TAG ="EMPLOYEE TEST";
 
-    public void testCreateReadUpdateDelete() throws Exception {
+    public void testCreateReadUpdateDeleteEmployee() throws Exception {
 
-        EmployeeRepository repo = new EmployeeRepositoryImpl(this.getContext());
+        EmployeeRepositoryImpl repo = new EmployeeRepositoryImpl(this.getContext());
         // CREATE
         Employee createEntity = new Employee.Builder()
                 .name("Athi")
@@ -35,7 +36,7 @@ public class EmployeeRepositoryTest extends AndroidTestCase {
         Employee insertedEntity = repo.add(createEntity);
         id=insertedEntity.getId();
 
-        Assert.assertNotNull(TAG+" CREATE",insertedEntity);
+       Assert.assertNotNull(TAG+" CREATE",insertedEntity);
 
 
         //READ ALL
@@ -53,7 +54,7 @@ public class EmployeeRepositoryTest extends AndroidTestCase {
                 .build();
         repo.update(updateEntity);
         Employee newEntity = repo.findById(id);
-        Assert.assertEquals(TAG+ " UPDATE ENTITY","Thabo",updateEntity.getName());
+        Assert.assertEquals(TAG+ " UPDATE ENTITY","Thabo",newEntity.getName());
 
         /*// DELETE ENTITY
         repo.delete(updateEntity);

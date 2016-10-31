@@ -18,4 +18,13 @@ public class StartMenuActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    public void onExitClick(View view){
+        finish();
+    }
+
+    public void onEventsClick(View view){
+        finish();
+    }
+
+
 }

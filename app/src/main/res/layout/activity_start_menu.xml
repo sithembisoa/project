@@ -9,6 +9,16 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.off.asithembiso.rands.StartMenuActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="262dp"
+        android:orientation="vertical"
+        android:background="@drawable/login_bg"
+        android:layout_weight="0.04"
+        android:id="@+id/relativeLayout"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+    </RelativeLayout>
 
     <TextView
         android:text="Welcome"
@@ -19,12 +29,39 @@
         android:layout_marginTop="215dp"
         android:id="@+id/textView2" />
 
+
     <Button
-        android:text="Button"
-        android:layout_width="wrap_content"
+        android:id="@+id/btnEmployees"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
+        android:text="Employees"
+        android:background="@drawable/button_bg_transparent"
         android:onClick="onEmployeesClick"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/button" />
+        android:layout_marginTop="77dp"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/btnExit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Exit"
+        android:onClick="onExitClick"
+        android:background="@drawable/button_bg_transparent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/btnEvents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Events"
+        android:background="@drawable/button_bg_transparent"
+        android:onClick="onEventsClick"
+        android:layout_marginTop="19dp"
+        android:layout_below="@+id/btnEmployees"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

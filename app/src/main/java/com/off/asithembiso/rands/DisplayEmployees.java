@@ -29,9 +29,10 @@ public class DisplayEmployees extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_employees);
+
         search=(EditText) findViewById(R.id.txtSearch);
-        repo = new EmployeeRepositoryImpl(this.getApplicationContext());
-        loadGrid();
+        repo = new EmployeeRepositoryImpl(this);
+        //loadGrid();
     }
 
    public void loadGrid() {

@@ -15,7 +15,7 @@ import com.off.asithembiso.rands.repositories.interfaces.EmployeeRepository;
 
 public class AddEmployee extends AppCompatActivity {
 
-    private EmployeeRepository repo = new EmployeeRepositoryImpl(this);
+    private EmployeeRepositoryImpl repo;
     private Bundle bundle;
     private String key;
 
@@ -26,7 +26,7 @@ public class AddEmployee extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_employee);
-
+        repo = new EmployeeRepositoryImpl(this.getApplicationContext());
         idNumber = (TextView) findViewById(R.id.txtID);
         name = (EditText) findViewById(R.id.txtName);
         lastName = (EditText) findViewById(R.id.txtSurname);
