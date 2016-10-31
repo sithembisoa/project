@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,7 +50,13 @@ public class RegisterActivity extends AppCompatActivity {
             String passwordRetype_str = passwordRetype.getText().toString();
             String name_str = name.getText().toString();
 
-            if (!password_str.equals(passwordRetype_str)){
+            if(!validateEmail(email_str)){
+                email.setError("Invalid Email");
+                email.requestFocus();
+            }else if(!validatePassword(password_str)){
+                password.setError("Password Too Short");
+                password.requestFocus();
+            }else if (!password_str.equals(passwordRetype_str)){
                 Toast.makeText(RegisterActivity.this,"Passwords Don't match", Toast.LENGTH_LONG).show();
                 password.requestFocus();
             }else {
@@ -82,7 +87,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private boolean validatePassword(String password) {
-        if(password!=null && password.length()>5){
+        if(password != null && password.length() > 5){
             return true;
         }else{
             return false;
